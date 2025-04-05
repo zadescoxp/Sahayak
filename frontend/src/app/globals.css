@@ -18,7 +18,11 @@
     --foreground: #ededed;
   }
 }
-
+html {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 body {
   background: var(--background);
   color: var(--foreground);

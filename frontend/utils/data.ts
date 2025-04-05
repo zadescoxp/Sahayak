@@ -1,29 +1,24 @@
 const modeData = [
   {
-    image: "https://example.com/image1.jpg",
+    image: "/general.jpg",
     title: "General",
     redirect: "/general",
   },
   {
-    image: "https://example.com/image1.jpg",
-    title: "Relegion",
-    redirect: "/relegion",
+    image: "/religion.jpg",
+    title: "Religion",
+    redirect: "/religion",
   },
   {
-    image: "https://example.com/image1.jpg",
+    image: "/health.jpg",
     title: "Health",
     redirect: "/health",
   },
   {
-    image: "https://example.com/image1.jpg",
+    image: "/schemes.jpg",
     title: "Schemes",
     redirect: "/schemes",
-  },
-  {
-    image: "https://example.com/image1.jpg",
-    title: "Order",
-    redirect: "/order",
-  },
+  }
 ];
 
 export { modeData };

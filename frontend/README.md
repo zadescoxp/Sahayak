@@ -1,36 +1,117 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sahayak Frontend
 
-## Getting Started
+The frontend of Sahayak is built with Next.js, React, and TypeScript, providing a user-friendly interface for the AI-powered digital assistant designed for senior citizens and children.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Responsive UI**: Optimized for all devices with special emphasis on accessibility
+- **Multiple Chat Modes**: Interface for different assistance modes (General, Religious, Health, Schemes)
+- **Text-to-Speech**: Audio playback of AI responses for better accessibility
+- **User Authentication**: Secure login and profile management
+- **Health Module Interface**: Upload and view medical documents with AI analysis
+
+## Tech Stack
+
+- **Next.js** (v15.2.4): React framework for server-rendered applications
+- **React** (v19.0.0): UI component library
+- **TypeScript**: Type-safe JavaScript
+- **TailwindCSS**: Utility-first CSS framework for styling
+- **Firebase**: Authentication and user management
+- **Web APIs**: For audio functionality
+
+## Project Structure
+
+```
+frontend/
+├── src/
+│   ├── app/                     # Next.js app router pages
+│   │   ├── login/               # Authentication pages
+│   │   ├── mode/                # Different assistance modes
+│   │   │   ├── [id]/            # Dynamic routes for modes
+│   │   │   └── health/          # Health specific mode
+│   │   └── page.tsx             # Home page
+│   ├── components/              # Reusable UI components
+│   │   └── MarkdownRenderer.tsx # Renders markdown content
+│   └── firebase/                # Firebase configuration
+├── utils/                       # Utility functions
+│   └── middleware.tsx           # Authentication middleware
+└── public/                      # Static assets
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup Instructions
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prerequisites
+- Node.js (v18.x or higher)
+- npm or yarn
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Installation
 
-## Learn More
+1. Clone the repository and navigate to the frontend directory:
+   ```bash
+   git clone https://github.com/your-username/sahayak.git
+   cd sahayak/frontend
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Create a `.env.local` file with the following environment variables:
+   ```
+   NEXT_PUBLIC_FIREBASE_API_KEY=your_firebase_api_key
+   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
+   NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_firebase_project_id
+   NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+   NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
+   NEXT_PUBLIC_BACKEND=http://localhost:5000
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. Start the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
 
-## Deploy on Vercel
+5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Key Components
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### AuthMiddleware
+The `AuthMiddleware` component ensures that only authenticated users can access protected routes. It redirects unauthenticated users to the login page.
+
+### Chat Interface
+The chat interface allows users to send messages and receive responses from the AI assistant. It also includes text-to-speech functionality for better accessibility.
+
+### Health Module
+The health module includes features for uploading and analyzing medical documents, as well as receiving personalized health advice.
+
+## Building for Production
+
+To build the application for production:
+
+```bash
+npm run build
+# or
+yarn build
+```
+
+To run the production build locally:
+
+```bash
+npm run start
+# or
+yarn start
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request

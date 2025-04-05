@@ -161,23 +161,23 @@ def set_scheme_mode():
         user_uid = request.user["uid"]
         user_data = users_collection.find_one({"uid": user_uid})
 
-        response = gclient.models.generate_content(
-            model=model_id,
-            contents=f"""Your user's name is {user_data['name']}, he is {user_data['age']} years old {user_data['gender']}. He is from {user_data['state']}, India and speaks {user_data['language']}. He strongly believes in {user_data["religion"]} and he is a great devotee
-        Your role is to provide the user with latest goverment schemes in India which can be beneficial for the user. Keep in mind that the user is a senior citizen so tell him/her about beneficial offers as well. You need to answer as an smart adviser. Try to communicate with them in their native language. Also provide links of trusrted government sites for schemes.""",
-            config=GenerateContentConfig(
-                tools=[google_search_tool],
-                response_modalities=["TEXT"],
-            )
-        )
-
-        # response = client.responses.create(
-        #     model="gpt-4o",
-        #     instructions=f"""Your user's name is {user_data['name']}, he is {user_data['age']} years old {user_data['gender']}. He is from {user_data['state']}, India and speaks {user_data['language']}. He strongly believes in {user_data["religion"]} and he is a great devotee
-        # Your role is to provide the user with latest goverment schemes in India which can be beneficial for the user. Keep in mind that the user is a senior citizen so tell him/her about beneficial offers as well. You need to answer as an smart adviser. Try to communicate with them in their native language""",
-        #     input=data["input"],
+        # response = gclient.models.generate_content(
+        #     model=model_id,
+        #     contents=f"""Your user's name is {user_data['name']}, he is {user_data['age']} years old {user_data['gender']}. He is from {user_data['state']}, India and speaks {user_data['language']}. He strongly believes in {user_data["religion"]} and he is a great devotee
+        # Your role is to provide the user with latest goverment schemes in India which can be beneficial for the user. Keep in mind that the user is a senior citizen so tell him/her about beneficial offers as well. You need to answer as an smart adviser. Try to communicate with them in their native language. Also provide links of trusrted government sites for schemes.""",
+        #     config=GenerateContentConfig(
+        #         tools=[google_search_tool],
+        #         response_modalities=["TEXT"],
+        #     )
         # )
-        return jsonify({"response": response.text}), 200
+
+        response = client.responses.create(
+            model="gpt-4o",
+            instructions=f"""Your user's name is {user_data['name']}, he is {user_data['age']} years old {user_data['gender']}. He is from {user_data['state']}, India and speaks {user_data['language']}. He strongly believes in {user_data["religion"]} and he is a great devotee
+        Your role is to provide the user with latest goverment schemes in India which can be beneficial for the user. Keep in mind that the user is a senior citizen so tell him/her about beneficial offers as well. You need to answer as an smart adviser. Try to communicate with them in their native language. Also provide links of trusrted government sites for schemes.""",
+            input=data["input"],
+        )
+        return jsonify({"response": response.output_text}), 200
     except KeyError as e:
         return jsonify({"error": "Missing required user data", "details": str(e)}), 400
     except ValueError as e:

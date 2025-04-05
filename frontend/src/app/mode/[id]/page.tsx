@@ -5,6 +5,52 @@ import { auth } from "@/firebase/config";
 import AuthMiddleware from "../../../../utils/middleware";
 import Link from "next/link";
 
+// Markdown parsing function
+const parseMarkdown = (markdown: string): string => {
+  // Basic markdown parsing for headings
+  let html = markdown
+    // Convert headers (e.g., # Title -> <h1>Title</h1>)
+    .replace(/^# (.*$)/gm, '<h1 class="text-2xl font-bold mb-2">$1</h1>')
+    .replace(/^## (.*$)/gm, '<h2 class="text-xl font-bold mb-2">$1</h2>')
+    .replace(/^### (.*$)/gm, '<h3 class="text-lg font-bold mb-2">$1</h3>')
+    
+    // Convert bold text (e.g., **text** -> <strong>text</strong>)
+    .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold">$1</strong>')
+    
+    // Convert italic text (e.g., *text* -> <em>text</em>)
+    .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
+    
+    // Convert links (e.g., [text](url) -> <a href="url">text</a>)
+    .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-blue-500 underline" target="_blank">$1</a>')
+    
+    // Convert unordered lists (e.g., - item -> <li>item</li>)
+    .replace(/^\s*-\s*(.*$)/gm, '<li class="ml-4">$1</li>')
+    
+    // Convert ordered lists (e.g., 1. item -> <li>item</li>)
+    .replace(/^\s*\d+\.\s*(.*$)/gm, '<li class="ml-4 list-decimal">$1</li>')
+    
+    // Convert code blocks (e.g., ```code``` -> <pre><code>code</code></pre>)
+    .replace(/```([\s\S]*?)```/g, '<pre class="bg-gray-100 p-2 rounded my-2 overflow-x-auto"><code>$1</code></pre>')
+    
+    // Convert inline code (e.g., `code` -> <code>code</code>)
+    .replace(/`(.*?)`/g, '<code class="bg-gray-100 px-1 rounded">$1</code>')
+    
+    // Convert blockquotes (e.g., > text -> <blockquote>text</blockquote>)
+    .replace(/^\s*>\s*(.*$)/gm, '<blockquote class="border-l-4 border-gray-300 pl-2 py-1 my-2 italic">$1</blockquote>')
+    
+    // Convert paragraphs (any text followed by a newline)
+    .replace(/^(?!<[a-z][A-Za-z]*|$).*$/gm, '<p class="mb-2">$&</p>');
+  
+  // Handle list grouping by wrapping <li> elements in <ul> or <ol>
+  html = html.replace(/<li class="ml-4">(.*?)<\/li>/g, '<ul class="list-disc mb-2"><li>$1</li></ul>');
+  html = html.replace(/<li class="ml-4 list-decimal">(.*?)<\/li>/g, '<ol class="list-decimal mb-2"><li>$1</li></ol>');
+  
+  // Handle consecutive paragraphs
+  html = html.replace(/<\/p>\s*<p/g, '</p><p');
+  
+  return html;
+};
+
 interface Message {
   type: "user" | "assistant";
   content: string;
@@ -149,7 +195,14 @@ export default function Mode({ params }: { params: PageParams }) {
                         : "bg-gray-200 text-gray-800"
                     }`}
                   >
-                    <div className="text-lg">{message.content}</div>
+                    {message.type === "user" ? (
+                      <div className="text-lg">{message.content}</div>
+                    ) : (
+                      <div 
+                        className="text-lg markdown-content" 
+                        dangerouslySetInnerHTML={{ __html: parseMarkdown(message.content) }}
+                      />
+                    )}
                     {message.type === "assistant" && (
                       <div className="mt-2 flex items-center gap-2">
                         {!message.audioUrl && !isGeneratingAudio[index] && (

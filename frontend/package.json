@@ -10,10 +10,13 @@
   },
   "dependencies": {
     "firebase": "^11.6.0",
+    "gray-matter": "^4.0.3",
     "next": "15.2.4",
     "openai": "^4.91.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "remark": "^15.0.1",
+    "remark-html": "^16.0.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

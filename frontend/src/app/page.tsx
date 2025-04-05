@@ -8,31 +8,9 @@ import { onAuthStateChanged } from "firebase/auth";
 import { modeData } from "../../utils/data";
 import Image from "next/image";
 import Link from "next/link";
-import { openai } from "../../utils/openaiConfig";
 
 export default function Home() {
   const [name, setName] = useState("");
-
-  const handleAudio = async () => {
-    const response = await openai.audio.speech.create({
-      model: "gpt-4o-mini-tts",
-      voice: "coral",
-      input: "Today is a wonderful day to build something people love!",
-      instructions: "Speak in a cheerful and positive tone.",
-      response_format: "wav",
-    });
-
-    // Create a blob from the response
-    const audioBlob = new Blob([await response.arrayBuffer()], {
-      type: "audio/wav",
-    });
-    const audioUrl = URL.createObjectURL(audioBlob);
-
-    // Create and play audio using browser's Audio API
-    const audio = new Audio(audioUrl);
-    audio.play();
-  };
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
@@ -61,24 +39,22 @@ export default function Home() {
   }, []);
   return (
     <AuthMiddleware>
-      <div>
-        <button onClick={logoutUser}>Logout</button>
-        <div className="">
-          <h1>Hey there, {name}</h1>
+      <div className="w-full h-full py-20">
+        <div className="w-full">
+          <span className="flex w-full items-center justify-between">
+          <h1 className="text-4xl font-semibold">Hey there, {name}</h1>
+          <button onClick={logoutUser} className="bg-[#e85d04] px-5 py-3 rounded-lg cursor-pointer">Logout</button></span>
           <div className="flex flex-col items-center justify-center">
+            <h2 className="my-10 text-3xl font-medium">Pick a mode to get started</h2>
             {modeData.map((mode, index) => (
-              <Link key={index} href={`/mode${mode.redirect}`}>
-                <span className="relative">
-                  <Image src={mode.image} fill alt="" />
+              <Link key={index} href={`/mode${mode.redirect}`} className="w-full flex flex-col items-center justify-center gap-2 mb-10">
+                <span className="relative w-full">
+                  <Image src={mode.image} height={200} width={200} className="w-full h-auto rounded-lg" alt="" />
                 </span>
-                <h2>{mode?.title}</h2>
+                <h2 className="text-2xl font-medium">{mode?.title}</h2>
               </Link>
             ))}
           </div>
-
-          <button className="" onClick={handleAudio}>
-            Play the audio
-          </button>
         </div>
       </div>
     </AuthMiddleware>

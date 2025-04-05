@@ -103,8 +103,8 @@ export default function Info() {
 
   return (
     <AuthMiddleware>
-      <div className="p-4">
-        <h1 className="text-2xl font-semibold text-center mb-4">
+      <div className="flex flex-col items-center justify-center h-full gap-4 w-full max-sm:w-[95%]">
+        <h1 className="text-2xl font-semibold text-center">
           Enter your information
         </h1>
         <form
@@ -118,7 +118,7 @@ export default function Info() {
             required
             value={formData.name}
             onChange={handleChange}
-            className="border p-2 rounded"
+            className="border-4 px-5 py-3 rounded-lg w-full "
           />
 
           <input
@@ -128,7 +128,7 @@ export default function Info() {
             required
             value={formData.age}
             onChange={handleChange}
-            className="border p-2 rounded"
+            className="border-4 px-5 py-3 rounded-lg w-full "
           />
 
           <select
@@ -136,7 +136,7 @@ export default function Info() {
             required
             value={formData.gender}
             onChange={handleChange}
-            className="border p-2 rounded"
+            className="border-4 px-5 py-3 rounded-lg w-full "
           >
             <option value="">Select Gender</option>
             <option value="male">Male</option>
@@ -150,7 +150,7 @@ export default function Info() {
             required
             value={formData.religion}
             onChange={handleChange}
-            className="border p-2 rounded"
+            className="border-4 px-5 py-3 rounded-lg w-full "
           />
 
           <select
@@ -158,7 +158,7 @@ export default function Info() {
             required
             value={formData.language}
             onChange={handleChange}
-            className="border p-2 rounded"
+            className="border-4 px-5 py-3 rounded-lg w-full "
           >
             <option value="">Select Language</option>
             {languages.map((lang) => (
@@ -173,7 +173,7 @@ export default function Info() {
             required
             value={formData.state}
             onChange={handleChange}
-            className="border p-2 rounded"
+            className="border-4 px-5 py-3 rounded-lg w-full "
           >
             <option value="">Select State</option>
             {states.map((state) => (
@@ -188,7 +188,7 @@ export default function Info() {
             required
             value={formData.photo}
             onChange={handleChange}
-            className="border p-2 rounded"
+            className="border-4 px-5 py-3 rounded-lg w-full "
           >
             <option value="">Select Photo</option>
             {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (

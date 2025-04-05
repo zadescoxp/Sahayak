@@ -24,6 +24,15 @@ export default function AuthMiddleware({
     return () => unsubscribe();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="flex items-center gap-3">
+          <div className="animate-spin rounded-full h-6 w-6 border-2 border-blue-500 border-t-transparent"></div>
+          <p className="text-2xl">Loading...</p>
+        </div>
+      </div>
+    );
+  }
   return <>{children}</>;
 }

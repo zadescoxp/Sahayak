@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { auth } from "../../firebase/config";
+import AuthMiddleware from "../../../utils/middleware";
 
 export default function Info() {
   const [formData, setFormData] = useState({
@@ -47,6 +48,9 @@ export default function Info() {
       }
     );
 
+    if (response.ok) {
+      window.location.href = "/";
+    }
     const resData = await response.json();
     console.log("✅ Response from backend:", resData);
   };
@@ -98,108 +102,110 @@ export default function Info() {
   ];
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-semibold text-center mb-4">
-        Enter your information
-      </h1>
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-4 max-w-md mx-auto"
-      >
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          required
-          value={formData.name}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-
-        <input
-          type="number"
-          name="age"
-          placeholder="Age"
-          required
-          value={formData.age}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-
-        <select
-          name="gender"
-          required
-          value={formData.gender}
-          onChange={handleChange}
-          className="border p-2 rounded"
+    <AuthMiddleware>
+      <div className="p-4">
+        <h1 className="text-2xl font-semibold text-center mb-4">
+          Enter your information
+        </h1>
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-4 max-w-md mx-auto"
         >
-          <option value="">Select Gender</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-        </select>
+          <input
+            type="text"
+            name="name"
+            placeholder="Name"
+            required
+            value={formData.name}
+            onChange={handleChange}
+            className="border p-2 rounded"
+          />
 
-        <input
-          type="text"
-          name="religion"
-          placeholder="Religion"
-          required
-          value={formData.religion}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
+          <input
+            type="number"
+            name="age"
+            placeholder="Age"
+            required
+            value={formData.age}
+            onChange={handleChange}
+            className="border p-2 rounded"
+          />
 
-        <select
-          name="language"
-          required
-          value={formData.language}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        >
-          <option value="">Select Language</option>
-          {languages.map((lang) => (
-            <option key={lang} value={lang}>
-              {lang}
-            </option>
-          ))}
-        </select>
+          <select
+            name="gender"
+            required
+            value={formData.gender}
+            onChange={handleChange}
+            className="border p-2 rounded"
+          >
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
 
-        <select
-          name="state"
-          required
-          value={formData.state}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        >
-          <option value="">Select State</option>
-          {states.map((state) => (
-            <option key={state} value={state}>
-              {state}
-            </option>
-          ))}
-        </select>
+          <input
+            type="text"
+            name="religion"
+            placeholder="Religion"
+            required
+            value={formData.religion}
+            onChange={handleChange}
+            className="border p-2 rounded"
+          />
 
-        <select
-          name="photo"
-          required
-          value={formData.photo}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        >
-          <option value="">Select Photo</option>
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
-            <option key={num} value={num}>
-              Photo {num}
-            </option>
-          ))}
-        </select>
+          <select
+            name="language"
+            required
+            value={formData.language}
+            onChange={handleChange}
+            className="border p-2 rounded"
+          >
+            <option value="">Select Language</option>
+            {languages.map((lang) => (
+              <option key={lang} value={lang}>
+                {lang}
+              </option>
+            ))}
+          </select>
 
-        <button
-          type="submit"
-          className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-        >
-          Submit
-        </button>
-      </form>
-    </div>
+          <select
+            name="state"
+            required
+            value={formData.state}
+            onChange={handleChange}
+            className="border p-2 rounded"
+          >
+            <option value="">Select State</option>
+            {states.map((state) => (
+              <option key={state} value={state}>
+                {state}
+              </option>
+            ))}
+          </select>
+
+          <select
+            name="photo"
+            required
+            value={formData.photo}
+            onChange={handleChange}
+            className="border p-2 rounded"
+          >
+            <option value="">Select Photo</option>
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
+              <option key={num} value={num}>
+                Photo {num}
+              </option>
+            ))}
+          </select>
+
+          <button
+            type="submit"
+            className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+    </AuthMiddleware>
   );
 }
